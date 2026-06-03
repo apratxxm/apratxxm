@@ -1,4 +1,4 @@
-## Hi, I'm Apratim
+## Hi, I'm Apratim,
 
 CS student building AI/ML projects, full-stack apps, and creative tech.
 
