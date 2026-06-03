@@ -9,8 +9,11 @@ Open to AI/ML & Software Engineering internships.
 ### What I work with
 
 **Languages:** Python · C++ · JavaScript · Java
-**AI/ML:** PyTorch · Scikit-learn · Transformers · NLP · Librosa
+
+**AI/ML:** PyTorch · Scikit-learn · Transformers · NLP
+
 **Web:** React · Next.js · Tailwind CSS
+
 **Tools:** Git · Docker · Jupyter · Figma
 
 ### Currently exploring
