@@ -1,6 +1,6 @@
 ## Hi, I'm Apratim,
 
-CS student building AI/ML projects, full-stack apps, and creative tech.
+CS student building Agentic AI/NLP projects, full-stack apps, and creative tech.
 
 Open to AI/ML & Software Engineering internships.
 
