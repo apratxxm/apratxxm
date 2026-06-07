@@ -1,37 +1,42 @@
-## Hi, I'm Apratim,
+<div align="center">
 
-CS student building Agentic AI/NLP projects, full-stack apps, and creative tech.
+# Hi, I'm Apratim 👋
 
-Open to AI/ML & Software Engineering internships.
+**CS student building Agentic AI/NLP projects, full-stack apps, and anything cool i want to build on weekends.**<br>
+*(ps. open to AI/ML & Software Engineering internships).*
 
----
+<br>
 
 ### What I work with:
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python" />
+  <img src="https://img.shields.io/badge/C++-00599C?style=flat-square&logo=c%2B%2B&logoColor=white" alt="C++" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black" alt="JavaScript" />
+  <img src="https://img.shields.io/badge/Java-ED8B00?style=flat-square&logo=java&logoColor=white" alt="Java" />
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="PyTorch" />
+  <img src="https://img.shields.io/badge/Scikit--Learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white" alt="Scikit-Learn" />
+  <img src="https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB" alt="React" />
+  <img src="https://img.shields.io/badge/Next.js-black?style=flat-square&logo=next.js&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker" />
+</p>
 
-**Languages:** Python · C++ · JavaScript · Java
+<br>
 
-**AI/ML:** PyTorch · Scikit-learn · Transformers · NLP
+### Currently Exploring:
+`NLP` · `Transformers` · `RAG / DPR` · `AWS` · `Production-ready ML`
 
-**Web:** React · Next.js · Tailwind CSS
+<br>
 
-**Tools:** Git · Docker · Jupyter · Figma
+### Beyond Code:
+Into **Photography**, **Cinematography**, and the intersection of **Music + AI**.
 
-### Currently exploring
+<br>
 
-NLP · Transformers · Retrieval Systems (RAG/DPR) · Docker · AWS · Production-ready ML
-
----
-
-### Beyond code
-
-Into Photography, cinematography and the intersection of music + AI.
-
----
-
-### Get in touch
-
+### Get in touch:
 <p align="center"> 
- <a href="mailto:your.apratxmwork@gmail.com" alt="Email">
+ <a href="mailto:apratxmwork@gmail.com" alt="Email">
    <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
  </a>
  <a href="https://github.com/apratxxm" alt="GitHub">
@@ -42,3 +47,4 @@ Into Photography, cinematography and the intersection of music + AI.
  </a>
 </p>
 
+</div>
