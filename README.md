@@ -30,4 +30,15 @@ Into Photography, cinematography and the intersection of music + AI.
 
 ### Get in touch
 
-[![Email](https://img.shields.io/badge/Email-D14836?style=flat&logo=gmail&logoColor=white)](mailto:apratxmwork@gmail.com)     [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/apratimpandey)
+<p align="center"> 
+ <a href="mailto:your.apratxmwork@gmail.com" alt="Email">
+   <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
+ </a>
+ <a href="https://github.com/apratxxm" alt="GitHub">
+   <img src="https://img.shields.io/badge/%20-GitHub-black?logo=GitHub&logoColor=white&style=for-the-badge" />
+ </a>
+ <a href="https://www.linkedin.com/in/apratimpandey" alt="LinkedIn">
+   <img src="https://img.shields.io/badge/%20-LinkedIn-%230A66C2?logo=linkedin&logoColor=white&style=for-the-badge" />
+ </a>
+</p>
+
