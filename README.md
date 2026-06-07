@@ -1,4 +1,4 @@
-<div align="center">
+<div align="left">
 
 # Hi, I'm Apratim 👋
 
@@ -8,13 +8,13 @@
 <br>
 
 ### What I work with:
-<p align="center">
+<p align="left">
   <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python" />
   <img src="https://img.shields.io/badge/C++-00599C?style=flat-square&logo=c%2B%2B&logoColor=white" alt="C++" />
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black" alt="JavaScript" />
   <img src="https://img.shields.io/badge/Java-ED8B00?style=flat-square&logo=java&logoColor=white" alt="Java" />
 </p>
-<p align="center">
+<p align="left">
   <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="PyTorch" />
   <img src="https://img.shields.io/badge/Scikit--Learn-F7931E?style=flat-square&logo=scikit-learn&logoColor=white" alt="Scikit-Learn" />
   <img src="https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB" alt="React" />
@@ -35,7 +35,7 @@ Into **Photography**, **Cinematography**, and the intersection of **Music + AI**
 <br>
 
 ### Get in touch:
-<p align="center"> 
+<p align="left"> 
  <a href="mailto:apratxmwork@gmail.com" alt="Email">
    <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
  </a>
