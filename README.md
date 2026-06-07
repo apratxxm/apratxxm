@@ -2,10 +2,11 @@
 
 # Hi, I'm Apratim 👋
 
-**CS student building Agentic AI/NLP projects, full-stack apps, and anything cool i want to build on weekends.**<br>
+CS student building Agentic AI/NLP projects, full-stack apps, and anything cool i want to build on weekends.<br>
+
 *(ps. open to AI/ML & Software Engineering internships).*
 
-<br>
+
 
 ### What I work with:
 <p align="left">
@@ -22,17 +23,17 @@
   <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white" alt="Docker" />
 </p>
 
-<br>
+
 
 ### Currently Exploring:
 `NLP` · `Transformers` · `RAG / DPR` · `AWS` · `Production-ready ML`
 
-<br>
+
 
 ### Beyond Code:
 Into **Photography**, **Cinematography**, and the intersection of **Music + AI**.
 
-<br>
+
 
 ### Get in touch:
 <p align="left"> 
