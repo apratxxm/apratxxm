@@ -40,9 +40,6 @@ Into **Photography**, **Cinematography**, and the intersection of **Music + AI**
  <a href="mailto:apratxmwork@gmail.com" alt="Email">
    <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
  </a>&nbsp;&nbsp;
- <a href="https://github.com/apratxxm" alt="GitHub">
-   <img src="https://img.shields.io/badge/%20-GitHub-black?logo=GitHub&logoColor=white&style=for-the-badge" />
- </a>&nbsp;&nbsp;
  <a href="https://www.linkedin.com/in/apratimpandey" alt="LinkedIn">
    <img src="https://img.shields.io/badge/%20-LinkedIn-%230A66C2?logo=linkedin&logoColor=white&style=for-the-badge" />
  </a>
