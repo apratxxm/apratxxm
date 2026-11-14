@@ -16,6 +16,7 @@ activity   1,155 contributions in the last year
 editor     codex + claude code, too many tabs open
 focus      retrieval · agent tooling · 3d web
 status     open to ai/ml & swe roles
+mail       apratxmwork@gmail.com
 ```
 
 <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=15&duration=2800&pause=1000&color=8B949E&vCenter=true&width=460&height=28&lines=retrieval+%C2%B7+agent+tooling+%C2%B7+3d+web;currently+shipping+branchglance;open+to+ai%2Fml+%26+swe+roles" alt="retrieval · agent tooling · 3d web">
