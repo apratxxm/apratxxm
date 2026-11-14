@@ -13,8 +13,8 @@ uptime     21 years
 shell      python, typescript
 packages   10 public repos
 activity   1,155 contributions in the last year
-editor     codex + claude code, too many tabs open
-focus      retrieval · agent tooling · 3d web
+editor     vscode + codex + claude code, too many tabs open
+focus      retrieval · agent tooling · llm memory
 status     open to ai/ml & swe roles
 mail       apratxmwork@gmail.com
 ```
