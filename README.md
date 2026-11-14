@@ -23,7 +23,7 @@ mail       apratxmwork@gmail.com
 
 i build ai stuff and the software around it.
 
-### stuff i've built
+### products i've built
 
 - **[branchglance](https://github.com/apratxxm/branchglance)** - always-on-top widget for codex + claude code. every agent in one tree, who needs you, how much limit's left
 - **[jobangel](https://github.com/apratxxm/jobangel)** - finds startups and writes cold emails that know what they actually build
@@ -33,8 +33,8 @@ i build ai stuff and the software around it.
 
 ### where i've been
 
-- **hdfc life**, gen ai intern - fine-tuned sentence-bert for intent retrieval, top-1 went 44% → 71%
-- **visotonics**, founders' office - built the company site in next.js + three.js
+- **HDFC Life**, Generative AI Intern - fine-tuned sentence-bert for intent retrieval, top-1 went 44% → 71%
+- **Visotonics**, Founder's Office - built the company site in next.js + three.js
 
 ### stack
 
