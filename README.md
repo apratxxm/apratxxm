@@ -6,7 +6,7 @@
 \__,_/ .___/_/   \__,_/\__/_/_/ /_/ /_/
     /_/
 
-apratim@jaipur
+apratxmwork@gmail.com
 --------------
 os         b.tech cs (ai/ml) · manipal jaipur · out 2027
 uptime     21 years
