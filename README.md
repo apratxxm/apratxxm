@@ -12,7 +12,7 @@ os         b.tech cs (ai/ml) · manipal jaipur · out 2027
 uptime     21 years
 shell      python, typescript
 packages   10 public repos
-activity   1,156 contributions in the last year
+activity   1,155 contributions in the last year
 editor     codex + claude code, too many tabs open
 focus      retrieval · agent tooling · 3d web
 status     open to ai/ml & swe roles
