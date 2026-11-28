@@ -3,10 +3,17 @@ name: update stats
 on:
   schedule:
     - cron: "17 0 * * *"
+  push:
+    branches: [main]
+    paths: [".github/profile/**", ".github/workflows/update-stats.yml"]
   workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: update-stats
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -27,4 +34,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "update stats"
-          git push
+          for i in 1 2 3; do git pull --rebase -q && git push -q && exit 0; sleep 5; done
+          exit 1

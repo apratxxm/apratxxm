@@ -6,7 +6,7 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(ROOT, "src")
 OUT = os.environ.get("OUT_DIR", os.path.join(ROOT, "..", "..", "assets"))
 os.makedirs(OUT, exist_ok=True)
-QUERY = 'query{user(login:"apratxxm"){name bio location createdAt followers{totalCount} repositories(ownerAffiliations:OWNER,privacy:PUBLIC,first:100,orderBy:{field:PUSHED_AT,direction:DESC}){totalCount nodes{name description stargazerCount isFork primaryLanguage{name color} languages(first:5,orderBy:{field:SIZE,direction:DESC}){edges{size node{name color}}}}} contributionsCollection{totalCommitContributions totalPullRequestContributions totalIssueContributions contributionCalendar{totalContributions weeks{contributionDays{date contributionCount contributionLevel}}}}}}'
+QUERY = 'query{user(login:"apratxxm"){name bio location createdAt followers{totalCount} repositories(ownerAffiliations:OWNER,privacy:PUBLIC,first:100,orderBy:{field:PUSHED_AT,direction:DESC}){totalCount nodes{name description stargazerCount isFork primaryLanguage{name color} languages(first:5,orderBy:{field:SIZE,direction:DESC}){edges{size node{name color}}}}} bg:repository(name:"branchglance"){releases(first:1,orderBy:{field:CREATED_AT,direction:DESC}){nodes{tagName isPrerelease}}} contributionsCollection{totalCommitContributions totalPullRequestContributions totalIssueContributions contributionCalendar{totalContributions weeks{contributionDays{date contributionCount contributionLevel}}}}}}'
 
 def fetch():
     token = os.environ.get("GITHUB_TOKEN")
@@ -21,6 +21,8 @@ def fetch():
     return body["data"]["user"]
 
 U = fetch()
+_rel = (U.get("bg") or {}).get("releases", {}).get("nodes") or []
+BG_TAG = (_rel[0]["tagName"] + (" alpha" if _rel[0]["isPrerelease"] or _rel[0]["tagName"].startswith("v0.") else "")) if _rel else "alpha"
 C = U["contributionsCollection"]
 DAYS = [d for w in C["contributionCalendar"]["weeks"] for d in w["contributionDays"]]
 WEEKS = C["contributionCalendar"]["weeks"]
@@ -120,6 +122,15 @@ if counts[i] == 0:
     i -= 1
 while i >= 0 and counts[i]:
     cur += 1; i -= 1
+_lang = {}
+for _r in REPOS.values():
+    if _r["isFork"]:
+        continue
+    for _e in _r["languages"]["edges"]:
+        _n = _e["node"]["name"]; _c, _sz = _lang.get(_n, (_e["node"]["color"] or "#8b949e", 0))
+        _lang[_n] = (_c, _sz + _e["size"])
+_tot = sum(v[1] for v in _lang.values()) or 1
+LANG_PILLS = [(f"{n} {max(1, round(sz * 100 / _tot))}%", c) for n, (c, sz) in sorted(_lang.items(), key=lambda kv: -kv[1][1])[:4]]
 TOTAL = C["contributionCalendar"]["totalContributions"]
 COMMITS = C["totalCommitContributions"]; PRS = C["totalPullRequestContributions"]
 STARS = sum(r["stargazerCount"] for r in REPOS.values() if not r["isFork"])
@@ -135,7 +146,7 @@ def hero():
     b = [f'<defs><clipPath id="c"><rect width="{W}" height="{H}" rx="12"/></clipPath>'
          f'<radialGradient id="vg" cx=".5" cy=".5" r=".75"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".75"/></radialGradient>'
          f'<pattern id="sl" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" fill="#000" fill-opacity=".35"/></pattern>'
-         f'<linearGradient id="lamp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fde68a" stop-opacity=".22"/><stop offset="1" stop-color="#fde68a" stop-opacity="0"/></linearGradient></defs>'
+         f'<filter id="ng" x="-20%" y="-30%" width="140%" height="160%"><feGaussianBlur stdDeviation="60"/></filter><linearGradient id="lamp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fde68a" stop-opacity=".22"/><stop offset="1" stop-color="#fde68a" stop-opacity="0"/></linearGradient></defs>'
          f'<g clip-path="url(#c)">']
     # wall with vertical stripes
     b.append(f'<rect width="{W}" height="{RH}" fill="#1b2233"/>')
@@ -153,11 +164,27 @@ def hero():
     # plant on sill
     b.append('<rect x="58" y="180" width="22" height="20" fill="#b45f3c"/><rect x="56" y="178" width="26" height="5" fill="#c2703f"/>')
     b.append('<rect x="67" y="150" width="4" height="28" fill="#22c55e"/><rect x="71" y="156" width="12" height="5" fill="#22c55e"/><rect x="55" y="162" width="12" height="5" fill="#16a34a"/><rect x="71" y="146" width="9" height="5" fill="#16a34a"/>')
-    # nameplate
-    name = "APRATIM PANDEY"; px = 3; nw = pw(name, px)
-    nx = 420 - nw // 2
-    b.append(f'<rect x="{nx-16}" y="16" width="{nw+32}" height="41" fill="#111622"/><rect x="{nx-12}" y="20" width="{nw+24}" height="33" fill="#f5ecd7"/>')
-    b.append(ptext(name, nx, 26, px, "#1b2233"))
+    # name: signature (neon / paper) or pixel nameplate
+    mode = os.environ.get("SIGN", "plate")
+    sig_path = os.path.join(SRC, "signature.txt")
+    if mode != "plate" and os.path.exists(sig_path):
+        sw_, sh_, sd = open(sig_path).read().split(None, 2)
+        sw_, sh_ = float(sw_), float(sh_)
+        if mode == "neon":
+            hgt = 104; wid = hgt * sw_ / sh_; sx0 = 420 - wid / 2; sy0 = 2
+            vb = f'viewBox="0 0 {sw_:.0f} {sh_:.0f}"'
+            b.append(f'<clipPath id="wr"><rect x="{sx0-4:.1f}" y="0" width="{wid+8:.1f}" height="{RH}"><animate attributeName="width" from="0" to="{wid+8:.1f}" dur="2.4s" begin="0s" fill="freeze" calcMode="spline" keySplines=".45 0 .25 1" keyTimes="0;1"/></rect></clipPath>')
+            b.append(f'<g clip-path="url(#wr)"><svg x="{sx0:.1f}" y="{sy0}" width="{wid:.1f}" height="{hgt}" {vb} class="nf"><path d="{sd}" fill="#B9ADF5" filter="url(#ng)"/><path d="{sd}" fill="#F4F1FF"/></svg></g>')
+        else:  # paper card
+            cw_, ch_ = 196, 92; cx_ = 420 - cw_ / 2
+            b.append(f'<rect x="{cx_-4}" y="4" width="{cw_+8}" height="{ch_+8}" fill="#111622"/><rect x="{cx_}" y="8" width="{cw_}" height="{ch_}" fill="#f5ecd7"/>')
+            hgt = 80; wid = hgt * sw_ / sh_
+            b.append(f'<svg x="{420-wid/2:.1f}" y="13" width="{wid:.1f}" height="{hgt}" viewBox="0 0 {sw_:.0f} {sh_:.0f}"><path d="{sd}" fill="#1b2233"/></svg>')
+    else:
+        name = "APRATIM PANDEY"; px = 3; nw = pw(name, px)
+        nx = 420 - nw // 2
+        b.append(f'<rect x="{nx-16}" y="16" width="{nw+32}" height="41" fill="#111622"/><rect x="{nx-12}" y="20" width="{nw+24}" height="33" fill="#f5ecd7"/>')
+        b.append(ptext(name, nx, 26, px, "#1b2233"))
     # clock right
     b.append('<rect x="726" y="40" width="44" height="44" rx="22" fill="#111622"/><rect x="730" y="44" width="36" height="36" rx="18" fill="#f5ecd7"/>')
     b.append('<rect x="747" y="50" width="3" height="13" fill="#1b2233"/><rect x="747" y="61" width="11" height="3" fill="#1b2233"/>')
@@ -195,7 +222,7 @@ def hero():
     b.append(f'<rect x="{tx}" y="{ty}" width="{tw}" height="{th}" rx="18" fill="{WOOD}" stroke="{WOOD_L}" stroke-width="3"/>')
     b.append(f'<rect x="{tx+6}" y="{ty+6}" width="{tw-12}" height="{th-12}" rx="14" fill="none" stroke="{WOOD_D}" stroke-width="2"/>')
     # antenna
-    b.append(f'<path d="M420 {ty} L392 68" stroke="#9ca3af" stroke-width="3"/><path d="M420 {ty} L452 72" stroke="#9ca3af" stroke-width="3"/><rect x="408" y="{ty-8}" width="24" height="9" rx="3" fill="#374151"/>')
+    if os.environ.get("SIGN", "plate") == "plate": b.append(f'<path d="M420 {ty} L392 68" stroke="#9ca3af" stroke-width="3"/><path d="M420 {ty} L452 72" stroke="#9ca3af" stroke-width="3"/><rect x="408" y="{ty-8}" width="24" height="9" rx="3" fill="#374151"/>')
     # screen
     sx, sy, sw, sh = tx + 16, ty + 16, 216, th - 32
     b.append(f'<rect x="{sx-6}" y="{sy-6}" width="{sw+12}" height="{sh+12}" rx="16" fill="#151515"/>')
@@ -203,7 +230,7 @@ def hero():
     # screen content: STATS like a broadcast
     b.append(ptext("STATS", sx + 12, sy + 12, 2, PHOS_DIM))
     b.append(ptext("CH 01", sx + sw - 12 - pw("CH 01", 2), sy + 12, 2, PHOS_DIM))
-    rows = [("COMMITS", str(COMMITS)), ("PULL REQ", str(PRS)), ("REPOS", str(NREPOS)), ("STARS", str(STARS))]
+    rows = [("CONTRIB", f"{TOTAL:,}"), ("REPOS", str(NREPOS)), ("STARS", str(STARS)), ("BEST RUN", f"{best}D")]
     for k, (lab, val) in enumerate(rows):
         yy = sy + 36 + k * 25
         b.append(ptext(lab, sx + 12, yy + 3, 2, PHOS_DIM))
@@ -248,7 +275,8 @@ def hero():
              "@keyframes roll{from{transform:translateY(0)}to{transform:translateY(140px)}}.roll{animation:roll 4s linear infinite}"
              "@keyframes zz{0%{transform:translate(0,6px);opacity:0}40%{opacity:1}100%{transform:translate(6px,-8px);opacity:0}}.zz{animation:zz 3s ease-in-out infinite}"
              "@keyframes st{0%{transform:translateY(4px);opacity:0}50%{opacity:1}100%{transform:translateY(-6px);opacity:0}}.st{animation:st 2.4s ease-in-out infinite}"
-             "@keyframes gl{0%,96%,100%{opacity:1}97%{opacity:.6}}.gl{animation:gl 5s infinite}")
+             "@keyframes gl{0%,96%,100%{opacity:1}97%{opacity:.6}}.gl{animation:gl 5s infinite}"
+             "@keyframes nf{0%,91%,93%,95%,100%{opacity:1}92%,94%{opacity:.55}}.nf{animation:nf 6s 3s infinite}")
     save("hero.svg", svg(W, H, "".join(b), f"Apratim Pandey. I build tools for AI coding agents and work on retrieval, evaluation and project memory. Pixel room with a retro TV showing GitHub stats: {TOTAL} contributions, {COMMITS} commits, {PRS} pull requests, best run {best} days.", style))
 
 # ================= 3. SIGNAL RUN =================
@@ -290,7 +318,7 @@ def signal():
         b.append(ptext(val, x + 14, 228, 3, INK))
     # power-ups
     b.append(f'<text x="32" y="299" class="m" font-size="11" fill="{DIM}">POWER-UPS</text>')
-    pills = [("Python 80%", "#3572A5"), ("JavaScript 11%", "#f1e05a"), ("TypeScript 2%", "#3178c6"), ("Swift 1%", "#F05138")]
+    pills = LANG_PILLS
     x = 112
     for name, col in pills:
         w = 30 + len(name) * 7.4
@@ -365,7 +393,16 @@ def wordmark(x, y, h):
     return f'<svg x="{x}" y="{y}" width="{w:.1f}" height="{h}" viewBox="0 0 1609 228">{path}</svg>', w
 
 def shot(fname, w, h, crop_h_ratio):
-    im = Image.open(os.path.join(SRC, fname)).convert("RGB")
+    live = {"widget.png": "docs/images/widget.png", "insights.png": "docs/images/insights.png"}.get(fname)
+    im = None
+    if live:
+        try:
+            with urllib.request.urlopen("https://raw.githubusercontent.com/apratxxm/branchglance/master/" + live, timeout=30) as resp:
+                im = Image.open(io.BytesIO(resp.read())).convert("RGB")
+        except Exception as exc:
+            print("screenshot fallback:", fname, exc)
+    if im is None:
+        im = Image.open(os.path.join(SRC, fname)).convert("RGB")
     ch = int(im.width * crop_h_ratio)
     im = im.crop((0, 0, im.width, min(ch, im.height))).resize((w * 2, h * 2), Image.LANCZOS)
     buf = io.BytesIO(); im.save(buf, "JPEG", quality=82, optimize=True)
@@ -377,7 +414,8 @@ def featured():
     b = []
     b.append(ptext("> BUILDING NOW", 32, 32, 2, GREEN))
     bx = 32 + pw("> BUILDING NOW", 2) + 12
-    b.append(f'<rect x="{bx}" y="29" width="86" height="20" rx="4" fill="{LAV}" fill-opacity=".1" stroke="{LAV}" stroke-opacity=".6"/><text x="{bx+43}" y="43" text-anchor="middle" class="m" font-size="11" fill="{LAV}">v0.1.0 alpha</text>')
+    bw = len(BG_TAG) * 6.7 + 16
+    b.append(f'<rect x="{bx}" y="29" width="{bw:.1f}" height="20" rx="4" fill="{LAV}" fill-opacity=".1" stroke="{LAV}" stroke-opacity=".6"/><text x="{bx+bw/2:.1f}" y="43" text-anchor="middle" class="m" font-size="11" fill="{LAV}">{esc(BG_TAG)}</text>')
     meta = "Python · JavaScript · Swift"
     b.append(f'<text x="{W-32}" y="45" text-anchor="end" class="m" font-size="11" fill="{DIM}">{meta}</text>')
     mx = W - 32 - len(meta) * 6.6 - 16
