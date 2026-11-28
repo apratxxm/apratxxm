@@ -61,7 +61,7 @@ G = {
 "·":"00000 00000 00000 00100 00000 00000 00000",":":"00000 01100 01100 00000 01100 01100 00000",
 "@":"01110 10001 10111 10101 10111 10000 01110","+":"00000 00100 00100 11111 00100 00100 00000",
 "'":"00100 00100 01000 00000 00000 00000 00000","→":"00000 00100 00010 11111 00010 00100 00000",
-"*":"00100 00100 11111 01110 01110 11011 10001","_":"00000 00000 00000 00000 00000 00000 11111","$":"00100 01111 10100 01110 00101 11110 00100",
+",":"00000 00000 00000 00000 00110 00100 01000","*":"00100 00100 11111 01110 01110 11011 10001","_":"00000 00000 00000 00000 00000 00000 11111","$":"00100 01111 10100 01110 00101 11110 00100",
 }
 
 def pw(s, px):  # pixel text width
@@ -146,7 +146,7 @@ def hero():
     b = [f'<defs><clipPath id="c"><rect width="{W}" height="{H}" rx="12"/></clipPath>'
          f'<radialGradient id="vg" cx=".5" cy=".5" r=".75"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".75"/></radialGradient>'
          f'<pattern id="sl" width="3" height="3" patternUnits="userSpaceOnUse"><rect width="3" height="1" fill="#000" fill-opacity=".35"/></pattern>'
-         f'<filter id="ng" x="-20%" y="-30%" width="140%" height="160%"><feGaussianBlur stdDeviation="60"/></filter><linearGradient id="lamp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fde68a" stop-opacity=".22"/><stop offset="1" stop-color="#fde68a" stop-opacity="0"/></linearGradient></defs>'
+         f'<filter id="ng" x="-20%" y="-30%" width="140%" height="160%"><feGaussianBlur stdDeviation="3"/></filter><linearGradient id="lamp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fde68a" stop-opacity=".22"/><stop offset="1" stop-color="#fde68a" stop-opacity="0"/></linearGradient></defs>'
          f'<g clip-path="url(#c)">']
     # wall with vertical stripes
     b.append(f'<rect width="{W}" height="{RH}" fill="#1b2233"/>')
@@ -164,22 +164,30 @@ def hero():
     # plant on sill
     b.append('<rect x="58" y="180" width="22" height="20" fill="#b45f3c"/><rect x="56" y="178" width="26" height="5" fill="#c2703f"/>')
     b.append('<rect x="67" y="150" width="4" height="28" fill="#22c55e"/><rect x="71" y="156" width="12" height="5" fill="#22c55e"/><rect x="55" y="162" width="12" height="5" fill="#16a34a"/><rect x="71" y="146" width="9" height="5" fill="#16a34a"/>')
-    # name: signature (neon / paper) or pixel nameplate
-    mode = os.environ.get("SIGN", "plate")
-    sig_path = os.path.join(SRC, "signature.txt")
-    if mode != "plate" and os.path.exists(sig_path):
-        sw_, sh_, sd = open(sig_path).read().split(None, 2)
-        sw_, sh_ = float(sw_), float(sh_)
-        if mode == "neon":
-            hgt = 104; wid = hgt * sw_ / sh_; sx0 = 420 - wid / 2; sy0 = 2
-            vb = f'viewBox="0 0 {sw_:.0f} {sh_:.0f}"'
-            b.append(f'<clipPath id="wr"><rect x="{sx0-4:.1f}" y="0" width="{wid+8:.1f}" height="{RH}"><animate attributeName="width" from="0" to="{wid+8:.1f}" dur="2.4s" begin="0s" fill="freeze" calcMode="spline" keySplines=".45 0 .25 1" keyTimes="0;1"/></rect></clipPath>')
-            b.append(f'<g clip-path="url(#wr)"><svg x="{sx0:.1f}" y="{sy0}" width="{wid:.1f}" height="{hgt}" {vb} class="nf"><path d="{sd}" fill="#B9ADF5" filter="url(#ng)"/><path d="{sd}" fill="#F4F1FF"/></svg></g>')
-        else:  # paper card
-            cw_, ch_ = 196, 92; cx_ = 420 - cw_ / 2
-            b.append(f'<rect x="{cx_-4}" y="4" width="{cw_+8}" height="{ch_+8}" fill="#111622"/><rect x="{cx_}" y="8" width="{cw_}" height="{ch_}" fill="#f5ecd7"/>')
-            hgt = 80; wid = hgt * sw_ / sh_
-            b.append(f'<svg x="{420-wid/2:.1f}" y="13" width="{wid:.1f}" height="{hgt}" viewBox="0 0 {sw_:.0f} {sh_:.0f}"><path d="{sd}" fill="#1b2233"/></svg>')
+    # name: pixel neon signature, or pixel nameplate fallback
+    mode = os.environ.get("SIGN", "neon")
+    sig_px = os.path.join(SRC, "signature_px.txt")
+    if mode == "neon" and os.path.exists(sig_px):
+        grid = open(sig_px).read().split()
+        cell = 2.5; gw_, gh_ = len(grid[0]) * cell, len(grid) * cell
+        ox, oy = 420 - gw_ / 2, 6
+        d = []
+        for r, row in enumerate(grid):
+            c = 0
+            while c < len(row):
+                if row[c] == "1":
+                    k = c
+                    while k < len(row) and row[k] == "1":
+                        k += 1
+                    d.append(f"M{ox+c*cell:g} {oy+r*cell:g}h{(k-c)*cell:g}v{cell:g}h-{(k-c)*cell:g}z")
+                    c = k
+                else:
+                    c += 1
+        d = "".join(d)
+        steps = 24
+        vals = ";".join(str(round((gw_ + 8) * i / steps)) for i in range(steps + 1))
+        b.append(f'<clipPath id="wr"><rect x="{ox-4:g}" y="0" width="{gw_+8:g}" height="{RH}"><animate attributeName="width" values="{vals}" dur="2.4s" begin="0s" fill="freeze" calcMode="discrete"/></rect></clipPath>')
+        b.append(f'<g clip-path="url(#wr)" class="nf"><path d="{d}" fill="#8f7ff0" filter="url(#ng)" opacity=".9"/><path d="{d}" fill="#D9D2FF"/></g>')
     else:
         name = "APRATIM PANDEY"; px = 3; nw = pw(name, px)
         nx = 420 - nw // 2
@@ -222,7 +230,7 @@ def hero():
     b.append(f'<rect x="{tx}" y="{ty}" width="{tw}" height="{th}" rx="18" fill="{WOOD}" stroke="{WOOD_L}" stroke-width="3"/>')
     b.append(f'<rect x="{tx+6}" y="{ty+6}" width="{tw-12}" height="{th-12}" rx="14" fill="none" stroke="{WOOD_D}" stroke-width="2"/>')
     # antenna
-    if os.environ.get("SIGN", "plate") == "plate": b.append(f'<path d="M420 {ty} L392 68" stroke="#9ca3af" stroke-width="3"/><path d="M420 {ty} L452 72" stroke="#9ca3af" stroke-width="3"/><rect x="408" y="{ty-8}" width="24" height="9" rx="3" fill="#374151"/>')
+    if os.environ.get("SIGN", "neon") == "plate": b.append(f'<path d="M420 {ty} L392 68" stroke="#9ca3af" stroke-width="3"/><path d="M420 {ty} L452 72" stroke="#9ca3af" stroke-width="3"/><rect x="408" y="{ty-8}" width="24" height="9" rx="3" fill="#374151"/>')
     # screen
     sx, sy, sw, sh = tx + 16, ty + 16, 216, th - 32
     b.append(f'<rect x="{sx-6}" y="{sy-6}" width="{sw+12}" height="{sh+12}" rx="16" fill="#151515"/>')
