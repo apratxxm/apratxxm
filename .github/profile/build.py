@@ -336,7 +336,7 @@ def signal():
         x += w + 10
     style = (f"@keyframes fly{{from{{transform:translate({gx-24}px,{gy+3*(cs+gap)-3:.1f}px)}}to{{transform:translate({gx+gw+6:.1f}px,{gy+3*(cs+gap)-3:.1f}px)}}}}"
              f".ship{{animation:fly {run_s}s linear infinite}}"
-             f"@keyframes eat{{0%,1%{{opacity:1}}3%{{opacity:.08}}60%{{opacity:.08}}75%,100%{{opacity:1}}}}.e{{animation:eat {run_s}s linear infinite}}"
+             f"@keyframes eat{{0%{{opacity:1}}1%{{opacity:.15}}9%{{opacity:.15}}16%,100%{{opacity:1}}}}.e{{animation:eat {run_s}s linear infinite}}"
              "@keyframes fl{50%{opacity:.3}}.fl{animation:fl .2s steps(1) infinite}")
     save("signal.svg", svg(W, H, "".join(b), f"Signal run: {TOTAL} contributions in the last year, current streak {cur} days, best run {best} days, {PRS} pull requests.", style))
 
@@ -476,9 +476,28 @@ def experience():
     save("experience.svg", svg(W, H, "".join(b), "HDFC Life, Generative AI intern: Top-1 accuracy 44% to 71%, Top-3 96.8%, rarest-class F1 0.17 to 0.84."))
 
 hero(); signal(); featured(); experience()
+
+def bust_cache():
+    """Version each README image by content hash so browsers and GitHub fetch changed panels."""
+    readme = os.path.join(ROOT, "..", "..", "README.md")
+    if not os.path.exists(readme):
+        return
+    text = open(readme, encoding="utf-8").read()
+    def repl(m):
+        name = m.group(1)
+        f = os.path.join(OUT, name)
+        if not os.path.exists(f):
+            return m.group(0)
+        v = hashlib.sha1(open(f, "rb").read()).hexdigest()[:8]
+        return f'src="assets/{name}?v={v}"'
+    new = re.sub(r'src="assets/([\w.-]+\.svg)(?:\?v=[0-9a-f]+)?"', repl, text)
+    if new != text:
+        open(readme, "w", encoding="utf-8", newline=chr(10)).write(new)
+
 header("h-projects.svg", "PROJECTS"); header("h-experience.svg", "EXPERIENCE")
 pcard("p-demistifi.svg", "de-mistifi", "de-mistifi", "Turns long chat exports into a record of what got decided, what broke, and why.", 1)
 pcard("p-visotonics.svg", "visotonics3d", "visotonics3d", "Scroll-driven WebGL site for a vision-AI industrial inspection company.", 3, True)
 pcard("p-smartalexa.svg", "smartalexa", "smartalexa", "Local-first voice assistant that runs on my own machine.", 2)
 pcard("p-jobangel.svg", "jobangel", "jobangel", "Finds startups and drafts personalised internship outreach with RAG.", 4, True)
 print("ok", TOTAL, COMMITS, PRS, cur, best, STARS, NREPOS)
+bust_cache()
