@@ -1,45 +1,18 @@
-```text
-                          __  _
-  ____ _____  _________ _/ /_(_)___ ___
- / __ `/ __ \/ ___/ __ `/ __/ / __ `__ \
-/ /_/ / /_/ / /  / /_/ / /_/ / / / / / /
-\__,_/ .___/_/   \__,_/\__/_/_/ /_/ /_/
-    /_/
+<a href="https://github.com/apratxxm"><img src="assets/hero.svg" width="100%" alt="Apratim Pandey. I build tools for AI coding agents and work on retrieval, evaluation and project memory."></a>
 
-apratxmwork@gmail.com
---------------
-os         b.tech cs (ai/ml) · manipal jaipur · out 2027
-uptime     21 years
-shell      python, typescript
-packages   10 public repos
-activity   1,342 contributions in the last year
-editor     vscode + codex + claude code, too many tabs open
-focus      retrieval · agent tooling · llm memory
-status     open to ai/ml & swe roles
-mail       apratxmwork@gmail.com
-```
+<img src="assets/signal.svg" width="100%" alt="Signal run: a pixel ship flies across my real contribution grid">
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=15&duration=2800&pause=1000&color=8B949E&vCenter=true&width=460&height=28&lines=retrieval+%C2%B7+agent+tooling+%C2%B7+3d+web;currently+shipping+branchglance;open+to+ai%2Fml+%26+swe+roles" alt="retrieval · agent tooling · 3d web">
+<img src="assets/h-projects.svg" width="100%" alt="Projects">
 
-i build ai stuff and the software around it.
+<a href="https://github.com/apratxxm/branchglance"><img src="assets/branchglance.svg" width="100%" alt="Building now: Branchglance, an always-on-top widget for Codex and Claude Code agents"></a>
 
-### products i've built
+<p>
+<a href="https://github.com/apratxxm/de-mistifi"><img src="assets/p-demistifi.svg" width="50%" alt="de-mistifi"></a><a href="https://github.com/apratxxm/visotonics3d"><img src="assets/p-visotonics.svg" width="50%" alt="visotonics3d"></a>
+<a href="https://github.com/apratxxm/smartalexa"><img src="assets/p-smartalexa.svg" width="50%" alt="smartalexa"></a><a href="https://github.com/apratxxm/jobangel"><img src="assets/p-jobangel.svg" width="50%" alt="jobangel"></a>
+</p>
 
-- **[branchglance](https://github.com/apratxxm/branchglance)** - always-on-top widget for codex + claude code. every agent in one tree, who needs you, how much limit's left
-- **[jobangel](https://github.com/apratxxm/jobangel)** - finds startups and writes cold emails that know what they actually build
-- **[de-mistifi](https://github.com/apratxxm/de-mistifi)** - turns messy chat logs back into what a project decided and why
-- **[smartalexa](https://github.com/apratxxm/smartalexa)** - voice control for my windows pc, all local
-- **[visotonics3d](https://github.com/apratxxm/visotonics3d)** - scroll-driven 3d site, one webgl scene the whole way down
+<img src="assets/h-experience.svg" width="100%" alt="Experience">
 
-### where i've been
+<img src="assets/experience.svg" width="100%" alt="HDFC Life, Generative AI intern: Top-1 accuracy 44% to 71%">
 
-- **HDFC Life**, Generative AI Intern - fine-tuned sentence-bert for intent retrieval, top-1 went 44% → 71%
-- **Visotonics**, Founder's Office - built the company site in next.js + three.js
-
-### stack
-
-python · pytorch · transformers · faiss · fastapi · postgres · docker · aws · typescript · react · next.js · three.js
-
-off-screen: photography, cinematography, music x ai.
-
-[linkedin](https://www.linkedin.com/in/apratimpandey) · [mail](mailto:apratxmwork@gmail.com)
+<p align="center"><sub><a href="https://github.com/apratxxm/branchglance/releases/tag/v0.1.0">branchglance alpha</a> · <a href="https://www.linkedin.com/in/apratimpandey">linkedin</a> · <a href="mailto:apratxmwork@gmail.com">email</a></sub></p>
